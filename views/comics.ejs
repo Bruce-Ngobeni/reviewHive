@@ -11,7 +11,7 @@
     <div class="container">
         <% comics.forEach((comic) => { %>
             <div class="card">
-                <img class="card-img" src="<%= comic.image %>>" alt="picture of <%=comic.title%>">
+                <img class="card-img" src="<%= comic.image %>" width="300px" height="300px" alt="picture of <%=comic.title%> comic">
                 <h3 class="card-title">Title: <%= comic.title %></h3>
                 <p class="card-description">Description : <%= comic.description %></p>
             </div>

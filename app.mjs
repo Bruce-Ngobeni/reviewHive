@@ -17,7 +17,7 @@ const comics = [
     {
         title:"Batman",
         description: "Snackwave sustainable meh banjo poutine +1 williamsburg tote bag locavore pop-up. Raw denim kickstarter XOXO actually, seitan celiac hoodie Brooklyn +1. Snackwave cliche heirloom humblebrag, gluten-free shabby chic XOXO meggings mixtape seitan banh mi. Lo-fi lyft meditation fashion axe, meh twee same. Sartorial etsy deep v, palo santo 8-bit gluten-free pickled offal selvage same bodega boys whatever vice shoreditch YOLO. Vibecession poke bespoke squid vinyl try-hard pok pok drinking vinegar fanny pack lumbersexual mukbang. Prism succulents meditation pour-over tacos mlkshk PBR&B.",
-        image: "https://pbs.twimg.com/profile_images/1816958428771749888/f49y3HRM_400x400.png"
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqfRwoi0Np-eFj4Wv5BLalGwLf98XJZl_6SA&s"
     },
     {
         title:"Dragon Ball",
