@@ -12,12 +12,12 @@ const comics = [
     {
         title:"Watchmen",
         description: "I'm baby heirloom cold-pressed venmo prism. Mumblecore iceland cloud bread, semiotics swag disrupt waistcoat solarpunk. Forage fam big mood flannel, pickled bodega boys poutine selfies tote bag. Tacos health goth selfies leggings aesthetic venmo. Meditation hexagon cronut DIY quinoa aesthetic synth keytar street art before they sold out sus waistcoat. JOMO schlitz godard farm-to-table gluten-free distillery vibecession blog enamel pin tumeric master cleanse selvage put a bird on it.",
-        image: "https://www.imdb.com/title/tt0409459/mediaviewer/rm2931438848/?ref_=tt_ov_i"
+        image: "https://m.media-amazon.com/images/M/MV5BY2IzNGNiODgtOWYzOS00OTI0LTgxZTUtOTA5OTQ5YmI3NGUzXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
     },
     {
         title:"Batman",
         description: "Snackwave sustainable meh banjo poutine +1 williamsburg tote bag locavore pop-up. Raw denim kickstarter XOXO actually, seitan celiac hoodie Brooklyn +1. Snackwave cliche heirloom humblebrag, gluten-free shabby chic XOXO meggings mixtape seitan banh mi. Lo-fi lyft meditation fashion axe, meh twee same. Sartorial etsy deep v, palo santo 8-bit gluten-free pickled offal selvage same bodega boys whatever vice shoreditch YOLO. Vibecession poke bespoke squid vinyl try-hard pok pok drinking vinegar fanny pack lumbersexual mukbang. Prism succulents meditation pour-over tacos mlkshk PBR&B.",
-        image: "https://x.com/Batman/photo"
+        image: "https://pbs.twimg.com/profile_images/1816958428771749888/f49y3HRM_400x400.png"
     },
     {
         title:"Dragon Ball",
@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/comics", (req, res) => {
-    res.render("comics")
+    res.render("comics", {comics});
 })
 
 

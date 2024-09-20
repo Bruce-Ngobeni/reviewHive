@@ -7,5 +7,16 @@
 </head>
 <body>
     <h1>Comics web page</h1>
+
+    <div class="container">
+        <% comics.forEach((comic) => { %>
+            <div class="card">
+                <img class="card-img" src="<%= comic.image %>>" alt="picture of <%=comic.title%>">
+                <h3 class="card-title">Title: <%= comic.title %></h3>
+                <p class="card-description">Description : <%= comic.description %></p>
+            </div>
+        <% }) %>
+        
+    </div>
 </body>
 </html>
