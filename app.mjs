@@ -1,12 +1,14 @@
 import express from "express";
 // const express = require("express")
 import fetch from "node-fetch";
+import bodyParser from "body-parser";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 const comics = [
@@ -27,14 +29,25 @@ const comics = [
     }
 ]
 
+
 app.get("/", (req, res) => {
     res.render("landing");
 })
+
 
 app.get("/comics", (req, res) => {
     res.render("comics", {comics});
 })
 
+app.post("/comics", (req, res) => {
+    console.log(req.body);
+    comics.push(req.body);
+    res.redirect("/comics");
+})
+
+app.get("/comics/new", (req, res) => {
+    res.render("comics_new");
+})
 
 app.listen(PORT, () => {
     console.log("Server is up and running on port: ", PORT);
