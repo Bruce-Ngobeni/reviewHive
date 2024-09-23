@@ -2,6 +2,8 @@ import express from "express";
 // const express = require("express")
 import fetch from "node-fetch";
 import bodyParser from "body-parser";
+import config from "./config.js";
+
 
 const app = express();
 const PORT = 3000;

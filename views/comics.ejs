@@ -1,16 +1,17 @@
 <%- include("partials/header") %>
 
-    
-
     <div class="container">
-        <h1 class="page-title">Comics Page</h1>
         
-        <div class="comics-container">
+        <div class="row">
             <% comics.forEach((comic) => { %>
                 <div class="card">
-                    <img class="card-img" src="<%= comic.image %>" alt="picture of <%=comic.title%> comic">
-                    <h3 class="card-title">Title: <%= comic.title %></h3>
-                    <p class="card-description">Description : <%= comic.description %></p>
+
+                    <a href="#">
+                        <img class="card-img card-img-top" src="<%= comic.image %>" alt="picture of <%=comic.title%> comic">
+                    </a>
+                    
+                    <h3 class="card-title mt-3">Title: <%= comic.title %></h3>
+                    <p class="card-text mb-3 mx-2">Description : <%= comic.description %></p>
                 </div>
             <% }) %>
         </div>
