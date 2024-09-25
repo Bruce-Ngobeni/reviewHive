@@ -52,7 +52,15 @@ app.get("/", (req, res) => {
 
 
 app.get("/comics", (req, res) => {
-    res.render("comics", {comics});
+    Comic.find()
+    .exec()
+    .then((foundCoomics) => {
+        res.render("comics", {comics:foundCoomics});
+    })
+    .catch((err) => {
+        console.log(err);
+        res.redirect("/comics");
+    })
 })
 
 app.post("/comics", (req, res) => {
