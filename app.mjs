@@ -3,14 +3,27 @@ import express from "express";
 import fetch from "node-fetch";
 import bodyParser from "body-parser";
 import config from "./config.js";
-
+import mongoose from "mongoose";
 
 const app = express();
 const PORT = 3000;
 
+// const mongoose = require("mongoose");
+
+mongoose.connect(config.db.connection)
+.then(() => {
+    console.log("Successfully connected to the database!")
+})
+.catch((err) => {
+    console.log("Error while connectig: ", err);
+    
+})
+
+
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 
 const comics = [
