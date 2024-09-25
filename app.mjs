@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import bodyParser from "body-parser";
 import config from "./config.js";
 import mongoose from "mongoose";
+import Comic from "./models/comic.js"
 
 const app = express();
 const PORT = 3000;
@@ -55,9 +56,22 @@ app.get("/comics", (req, res) => {
 })
 
 app.post("/comics", (req, res) => {
-    console.log(req.body);
-    comics.push(req.body);
-    res.redirect("/comics");
+    
+    const newComic = {
+        title: req.body.title,
+        description: req.body.description,
+        image: req.body.image
+    }
+
+    Comic.create(newComic)
+    .then((comic) => {
+        console.log(comic)
+        res.redirect("/comics");
+    })
+    .catch((err) => {
+        console.log(err);
+        res.redirect("/comics");
+    })
 })
 
 app.get("/comics/new", (req, res) => {
