@@ -1,0 +1,17 @@
+<%- include("partials/header") %>
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-6 image-container">
+                <img src="<%= comic.image %>" alt="">
+            </div>
+
+            <div class="col-6 details-container">
+                <h1><%= comic.title %></h1>
+                <p><%= comic.description %></p>
+            </div>
+            
+        </div>
+    </div>
+
+<%- include("partials/footer") %>
