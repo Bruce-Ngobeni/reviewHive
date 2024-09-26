@@ -1,23 +1,9 @@
 <%- include("partials/header") %>
-    <!-- <h1>Add New Comic</h1>
-    <form action="/comics" method="POST">
-
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title" autofocus>
-
-        <label for="description">Description</label>
-        <input type="text" name="description" id="description">
-
-        <label for="image">Image</label>
-        <input type="text" name="image" id="image">
-
-        <br>
-        <br>
-
-        <button type="submit">Submit</button>
-    </form> -->
 
     <div class="container">
+
+      <h1>Add New Comic</h1>
+
         <form action="/comics" method="post">
 
             <div class="mb-3">
@@ -29,6 +15,52 @@
                 <label for="description" class="form-label">Description</label>
                 <input type="text" name="description" class="form-control" id="description">
               </div>
+
+            <div class="mb-3">
+              <label for="author" class="form-label">Author</label>
+              <input type="text" name="author" class="form-control" id="author">
+            </div>
+
+            <div class="mb-3">
+              <label for="publisher" class="form-label">Publisher</label>
+              <input type="text" name="publisher" class="form-control" id="publisher">
+            </div>
+
+            <div class="mb-3">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" name="date" class="form-control" id="date">
+            </div>
+
+            <div class="mb-3">
+              <label for="series" class="form-label">Series</label>
+              <input type="text" name="series" class="form-control" id="series">
+            </div>
+
+            <div class="mb-3">
+              <label for="issue" class="form-label">Issue</label>
+              <input type="number" name="issue" class="form-control" id="issue">
+            </div>
+
+            <div class="mb-3">
+              <label for="genre" class="form-label">Genre</label>
+              <select class="form-control" name="genre" id="genre">
+                <option value="">--Choose Below--</option>
+                <option value="">SuperHero</option>
+                <option value="">Manga</option>
+                <option value="">Slice-of-life</option>
+                <option value="">Humor</option>
+                <option value="">Sci-fi</option>
+                <option value="">Fantasy</option>
+                <option value="">Horro</option>
+                <option value="">Action</option>
+                <option value="">Nonfiction</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="color" class="form-label">Color</label>
+              <input type="text" name="color" class="form-control" id="color" >
+            </div>
 
             <div class="mb-3">
               <label for="image" class="form-label">Image</label>
