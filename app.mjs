@@ -39,7 +39,7 @@ app.get("/comics", (req, res) => {
     })
     .catch((err) => {
         console.log(err);
-        res.redirect("/comics");
+        res.send(err);
     })
 })
 
@@ -64,6 +64,11 @@ app.post("/comics", (req, res) => {
 
 app.get("/comics/new", (req, res) => {
     res.render("comics_new");
+});
+
+
+app.get("/comics/:id", (req, res) => {
+    res.status(200).send(`Show page for comic with ID of: ${req.params.id}`)
 })
 
 app.listen(PORT, () => {
