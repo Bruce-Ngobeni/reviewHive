@@ -2,11 +2,11 @@
 
     <div class="container">
         <div class="row mt-4">
-            <div class="col-6 image-container">
+            <div class="col-6 show_image-container">
                 <img src="<%= comic.image %>" alt="">
             </div>
 
-            <div class="col-6 details-container">
+            <div class="col-6 show_details-container">
                 <h1><%= comic.title %></h1>
                 <p><%= comic.description %></p>
 
@@ -51,9 +51,17 @@
                     </tbody>
                   </table>
             </div>
-
-
-            
+        </div>
+        <div class="row show_comment-hearder mt-3">
+            COMMENT HEADER
+        </div>
+        <div class="row show_comment-container py-2">
+            <div class="col3">
+                Username
+            </div>
+            <div class="col-9">
+                Comment text here
+            </div>
         </div>
     </div>
 
