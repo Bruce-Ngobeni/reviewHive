@@ -74,7 +74,14 @@ app.get("/comics/new", (req, res) => {
 
 
 app.get("/comics/:id", (req, res) => {
-    res.status(200).send(`Show page for comic with ID of: ${req.params.id}`)
+    Comic.findById(req.params.id)
+    .exec()
+    .then((comic) => {
+        res.render("comics_show", {comic})
+    })
+    .catch((err) => {
+        res.status(400).send(`Product not found: ${err}`)
+    })
 })
 
 app.listen(PORT, () => {
