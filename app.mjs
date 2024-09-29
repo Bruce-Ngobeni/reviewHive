@@ -68,6 +68,12 @@ app.post("/comics", (req, res) => {
     })
 })
 
+// New comment
+app.get("/comics/:id/comments/new", (req,res) => {
+    res.render("comments_neww", {comicId: req.params.id})
+})
+
+
 app.get("/comics/new", (req, res) => {
     res.render("comics_new");
 });

@@ -15,10 +15,5 @@ const comicSchema = new mongoose.Schema({
 
 const Comic = mongoose.model("comic", comicSchema);
 
-// const newComic = new Comic({
-//     title: "Add title",
-//     description: "Add description",
-//     image: "Add image"
-// })
 
 module.exports = Comic;
