@@ -4,7 +4,9 @@ import fetch from "node-fetch";
 import bodyParser from "body-parser";
 import config from "./config.js";
 import mongoose from "mongoose";
+
 import Comic from "./models/comic.js"
+import Comment from "./models/comment.js"
 
 const app = express();
 const PORT = 3000;
@@ -68,9 +70,27 @@ app.post("/comics", (req, res) => {
     })
 })
 
-// New comment
+// New comment - show form
 app.get("/comics/:id/comments/new", (req,res) => {
-    res.render("comments_neww", {comicId: req.params.id})
+    res.render("comments_new", {comicId: req.params.id})
+})
+
+// Create comment - actually update DB
+app.post("/comics/:id/comments", (req, res) => {
+    //Create the comment
+    Comment.create({
+        user: req.body.user,
+        text: req.body.text,
+        comicId: req.body.comicId
+    })
+    .then(newComment => {
+        console.log(newComment);
+        res.redirect(`/comics/${req.body.comicId}`)
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect(`/comics/${req.body.comicId}`)
+    })
 })
 
 
