@@ -75,7 +75,7 @@ router.get("/:id/edit", (req, res) => {
     Comic.findById(req.params.id)
     .exec()
     .then((comic) => {
-        res.render("comic_edit", {comic})
+        res.render("comics_edit", {comic})
     })
 })
 
