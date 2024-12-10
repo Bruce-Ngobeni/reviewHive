@@ -53,16 +53,29 @@
             </div>
         </div>
         <div class="row show_comment-hearder mt-3">
-            COMMENT HEADER
+            COMMENTS
         </div>
-        <div class="row show_comment-container py-2">
-            <div class="col3">
-                Username
-            </div>
-            <div class="col-9">
-                Comment text here
-            </div>
+
+        <% if (comments.length === 0) { %>
+          
+          <div class="col3">
+            There are no comments yet. Be the first to share your thoughts!
         </div>
+        <% } else { %>
+          <% comments.forEach((comment) => { %>
+            <div class="row show_comment-container py-2">
+              <div class="col-3">
+                <strong><%= comment.user %></strong>
+              </div>
+              <div class="col-9">
+                <p><%= comment.text %></p>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      
+        
+        
     </div>
 
 <%- include("partials/footer") %>
