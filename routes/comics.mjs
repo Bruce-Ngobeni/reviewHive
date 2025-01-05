@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
     Comic.create(newComic)
     .then((comic) => {
         console.log(comic)
-        res.redirect("/comics");
+        res.redirect("/comics/" + comic._id);
     })
     .catch((err) => {
         console.log(err);
@@ -103,6 +103,19 @@ router.put("/:id", (req, res) => {
     })
     .catch(err => {
         res.send("Error:", err);
+    })
+})
+
+
+router.delete("/:id", (req, res) => {
+    Comic.findByIdAndDelete(req.params.id)
+    .exec()
+    .then(deletedComic => {
+        console.log("Deleted:", deletedComic);
+        res.redirect("/comics");
+    })
+    .catch(err => {
+        res.send("Error deleting: ", err)
     })
 })
 
