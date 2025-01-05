@@ -16,6 +16,7 @@ router.get("/", (req, res) => {
 })
 
 router.post("/", (req, res) => {
+    const genre = req.body.genre.toLowerCase();
     const newComic = {
         title: req.body.title,
         description: req.body.description,
@@ -76,6 +77,32 @@ router.get("/:id/edit", (req, res) => {
     .exec()
     .then((comic) => {
         res.render("comics_edit", {comic})
+    })
+})
+
+
+router.put("/:id", (req, res) => {
+    const genre = req.body.genre.toLowerCase();
+    const updatedComic = {
+        title: req.body.title,
+        description: req.body.description,
+        author: req.body.author,
+        publisher: req.body.publisher,
+        date: req.body.date,
+        series: req.body.series,
+        issue: req.body.issue,
+        genre: req.body.genre,
+        color: !!req.body.color,
+        image: req.body.image
+    }
+    Comic.findByIdAndUpdate(req.params.id, updatedComic,{new:true})
+    .exec()
+    .then( updatedComic => {
+        console.log(updatedComic)
+        res.redirect(`/comics/${req.params.id}`)
+    })
+    .catch(err => {
+        res.send("Error:", err);
     })
 })
 

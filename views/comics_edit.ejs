@@ -4,7 +4,7 @@
 
       <h1>Add New Comic</h1>
 
-        <form action="/comics" method="post">
+        <form action="/comics/<%= comic._id %>?_method=PUT" method="post">
 
             <div class="mb-3">
               <label for="title" class="form-label">Title</label>

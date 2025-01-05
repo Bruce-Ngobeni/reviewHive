@@ -3,6 +3,12 @@ import express from "express";
 import fetch from "node-fetch";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import methodOverride from "method-override";
+
+
+// Override using a query value (_method)
+// app.use(methodOverride('_method'));
+
 
 // Config Import
 import config from "./config.js";
@@ -33,6 +39,7 @@ mongoose.connect(config.db.connection)
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 
 // Use Comics Routes
