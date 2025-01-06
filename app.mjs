@@ -1,14 +1,14 @@
+// ======================
+// IMPORTS
+// ======================
+
 // NPM Imports
 import express from "express";
 import fetch from "node-fetch";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
-
-
-// Override using a query value (_method)
-// app.use(methodOverride('_method'));
-
+import morgan from "morgan";
 
 // Config Import
 import config from "./config.js";
@@ -22,8 +22,18 @@ import comicRoutes from "./routes/comics.mjs";
 import commentRoutes from "./routes/comments.mjs";
 import mainRoutes from "./routes/main.mjs"
 
-const app = express();
-const PORT = 3000;
+// ======================
+// DEVELOPMENT
+// ======================
+
+// Morgan
+app.use(morgan("tiny"));
+
+// Seed the DB
+
+// ======================
+// CONFIG
+// ======================
 
 // Connect to DB
 mongoose.connect(config.db.connection)
@@ -35,19 +45,32 @@ mongoose.connect(config.db.connection)
     
 })
 
+const app = express();
+const PORT = 3000;
 
+
+
+// Express Config
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+
+// Body Parser COnfig
 app.use(bodyParser.urlencoded({extended: true}));
+
+// Method Override Config
 app.use(methodOverride("_method"));
 
 
-// Use Comics Routes
+
+// Route Config
 app.use("/",mainRoutes)
 app.use("/comics",comicRoutes)
 app.use("/comics/:id/comments",commentRoutes)
 
 
+// ======================
+// LISTEN
+// ======================
 app.listen(PORT, () => {
     console.log("Server is up and running on port: ", PORT);
 })
