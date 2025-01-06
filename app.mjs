@@ -49,7 +49,6 @@ const app = express();
 const PORT = 3000;
 
 
-
 // Express Config
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -59,8 +58,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Method Override Config
 app.use(methodOverride("_method"));
-
-
 
 // Route Config
 app.use("/",mainRoutes)
