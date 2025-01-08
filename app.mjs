@@ -26,10 +26,15 @@ import mainRoutes from "./routes/main.mjs"
 // DEVELOPMENT
 // ======================
 
+const app = express();
+const PORT = 3000;
+
 // Morgan
 app.use(morgan("tiny"));
 
 // Seed the DB
+import seed from "./utils/seed.mjs";
+seed();
 
 // ======================
 // CONFIG
@@ -44,9 +49,6 @@ mongoose.connect(config.db.connection)
     console.log("Error while connectig: ", err);
     
 })
-
-const app = express();
-const PORT = 3000;
 
 
 // Express Config
