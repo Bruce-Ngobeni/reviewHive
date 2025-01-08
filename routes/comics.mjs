@@ -8,8 +8,8 @@ import Comment from "../models/comment.js"
 router.get("/", async (req, res) => {
 
     try {
-        const comic = await Comic.find().exec()
-        res.render("comics", {comics:foundCoomics});
+        const foundComics = await Comic.find().exec()
+        res.render("comics", {comics:foundComics});
 
     } catch(err){
         console.log(err);
@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
 
         console.log(comic)
         res.redirect("/comics/" + comic._id);
-        
+
     } catch(err) {
         console.log(err);
         res.redirect("/comics");
@@ -48,42 +48,46 @@ router.post("/", async (req, res) => {
 })
 
 
+// Get form to create a new comic
 router.get("/new", (req, res) => {
     res.render("comics_new");
 });
 
 
-router.get("/:id", (req, res) => {
-    Comic.findById(req.params.id)
-    .exec()
-    .then((comic) => {
-        Comment.find({comicId: req.params.id})
+router.get("/:id", async (req, res) => {
 
-        .then(comments => {
-            // Use a fallback for comments when none are found
-            const renderedComments = comments.length === 0 ? [] : comments;
+    try {
+        const comic = await Comic.findById(req.params.id).exec();
 
-            res.render("comics_show", {
-                comic,
-                comments: renderedComments,
-            });
-        })
-        .catch(err => {
-            res.status(500).send(`Error fetching comments: ${err.message}`);
+        if (!comic) {
+            return res.status(404).send("Comic not found.");
+        }
+
+        const comments = await Comment.find({comicId: req.params.id}).exec();
+        const renderedComments = comments.length ? comments : [];
+
+        res.render("comics_show", {
+            comic,
+            comments: renderedComments,
         });
 
-    })
-    .catch((err) => {
-        res.status(400).send(`Product not found: ${err}`)
-    })
+    }catch (err){
+        console.error("Error fetching comic or comments: ", err);
+        res.status(500).send(`Error: ${err.message}`);
+    }
 })
 
-router.get("/:id/edit", (req, res) => {
-    Comic.findById(req.params.id)
-    .exec()
-    .then((comic) => {
-        res.render("comics_edit", {comic})
-    })
+
+router.get("/:id/edit", async (req, res) => {
+
+    try{
+        const comic = Comic.findById(req.params.id).exec();
+        res.render("comics_edit", {comic});
+    }catch(err){
+        console.log(err);
+        res.send("Broken... /comics/id/edit");
+    };
+    
 })
 
 
