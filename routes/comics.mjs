@@ -3,19 +3,23 @@ const router = express.Router();
 import Comic from "../models/comic.js";
 import Comment from "../models/comment.js"
 
-router.get("/", (req, res) => {
-    Comic.find()
-    .exec()
-    .then((foundCoomics) => {
+
+// Get all comics
+router.get("/", async (req, res) => {
+
+    try {
+        const comic = await Comic.find().exec()
         res.render("comics", {comics:foundCoomics});
-    })
-    .catch((err) => {
+
+    } catch(err){
         console.log(err);
-        res.send(err);
-    })
+        res.send("you broke it... /index");
+    }
 })
 
-router.post("/", (req, res) => {
+
+// Post a new comic
+router.post("/", async (req, res) => {
     const genre = req.body.genre.toLowerCase();
     const newComic = {
         title: req.body.title,
@@ -30,15 +34,17 @@ router.post("/", (req, res) => {
         image: req.body.image
     }
 
-    Comic.create(newComic)
-    .then((comic) => {
+    
+    try {
+        const comic = await Comic.create(newComic)
+
         console.log(comic)
         res.redirect("/comics/" + comic._id);
-    })
-    .catch((err) => {
+        
+    } catch(err) {
         console.log(err);
         res.redirect("/comics");
-    })
+    }
 })
 
 
