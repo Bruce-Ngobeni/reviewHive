@@ -4,7 +4,7 @@ import Comic from "../models/comic.js";
 import Comment from "../models/comment.js"
 
 
-// Get all comics
+// GET all comics
 router.get("/", async (req, res) => {
 
     try {
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 })
 
 
-// Post a new comic
+// POST a new comic
 router.post("/", async (req, res) => {
     const genre = req.body.genre.toLowerCase();
     const newComic = {
@@ -54,6 +54,7 @@ router.get("/new", (req, res) => {
 });
 
 
+// GET specific comic by ID
 router.get("/:id", async (req, res) => {
 
     try {
@@ -78,10 +79,11 @@ router.get("/:id", async (req, res) => {
 })
 
 
+// GET form to edit a comic
 router.get("/:id/edit", async (req, res) => {
 
     try{
-        const comic = Comic.findById(req.params.id).exec();
+        const comic = await Comic.findById(req.params.id).exec();
         res.render("comics_edit", {comic});
     }catch(err){
         console.log(err);
@@ -91,7 +93,8 @@ router.get("/:id/edit", async (req, res) => {
 })
 
 
-router.put("/:id", (req, res) => {
+// PUT to update a comic
+router.put("/:id", async (req, res) => {
     const genre = req.body.genre.toLowerCase();
     const updatedComic = {
         title: req.body.title,
@@ -101,32 +104,30 @@ router.put("/:id", (req, res) => {
         date: req.body.date,
         series: req.body.series,
         issue: req.body.issue,
-        genre: req.body.genre,
+        genre,
         color: !!req.body.color,
         image: req.body.image
     }
-    Comic.findByIdAndUpdate(req.params.id, updatedComic,{new:true})
-    .exec()
-    .then( updatedComic => {
-        console.log(updatedComic)
+
+    try {
+        const comic = await Comic.findByIdAndUpdate(req.params.id, updatedComic,{new:true}).exec();
         res.redirect(`/comics/${req.params.id}`)
-    })
-    .catch(err => {
+
+    } catch(err){
+        console.log(err);
         res.send("Error:", err);
-    })
+    }
 })
 
 
-router.delete("/:id", (req, res) => {
-    Comic.findByIdAndDelete(req.params.id)
-    .exec()
-    .then(deletedComic => {
-        console.log("Deleted:", deletedComic);
+// DELETE a comic
+router.delete("/:id", async (req, res) => {
+    try{
+        const comic = await Comic.findByIdAndDelete(req.params.id).exec();
         res.redirect("/comics");
-    })
-    .catch(err => {
+    }catch(err){
         res.send("Error deleting: ", err)
-    })
+    }
 })
 
 
