@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const comicSchema = new mongoose.Schema({
     title: String,
     description: String,
@@ -12,6 +13,12 @@ const comicSchema = new mongoose.Schema({
     color: Boolean,
     image: String
 })
+
+
+// Add a text index to the schema to enable text search on all fields
+comicSchema.index({
+    "$**": "text"
+});
 
 const Comic = mongoose.model("comic", comicSchema);
 
