@@ -1,74 +1,74 @@
 <%- include("partials/header") %>
 
-    <div class="container">
+  <div class="container">
 
-      <h1>Add New Comic</h1>
+    <h1>Add New Comic</h1>
 
-        <form action="/comics" method="post">
+    <form action="/comics" method="post">
 
-            <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" name="title" class="form-control" id="title" placeholder="e.g Watchman" autofocus>
-            </div>
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" id="title" placeholder="e.g Watchman" autofocus>
+      </div>
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <input type="text" name="description" class="form-control" id="description">
-              </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" name="description" class="form-control" id="description">
+      </div>
 
-            <div class="mb-3">
-              <label for="author" class="form-label">Author</label>
-              <input type="text" name="author" class="form-control" id="author">
-            </div>
+      <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input type="text" name="author" class="form-control" id="author">
+      </div>
 
-            <div class="mb-3">
-              <label for="publisher" class="form-label">Publisher</label>
-              <input type="text" name="publisher" class="form-control" id="publisher">
-            </div>
+      <div class="mb-3">
+        <label for="publisher" class="form-label">Publisher</label>
+        <input type="text" name="publisher" class="form-control" id="publisher">
+      </div>
 
-            <div class="mb-3">
-              <label for="date" class="form-label">Date</label>
-              <input type="date" name="date" class="form-control" id="date">
-            </div>
+      <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" name="date" class="form-control" id="date">
+      </div>
 
-            <div class="mb-3">
-              <label for="series" class="form-label">Series</label>
-              <input type="text" name="series" class="form-control" id="series">
-            </div>
+      <div class="mb-3">
+        <label for="series" class="form-label">Series</label>
+        <input type="text" name="series" class="form-control" id="series">
+      </div>
 
-            <div class="mb-3">
-              <label for="issue" class="form-label">Issue</label>
-              <input type="number" name="issue" class="form-control" id="issue">
-            </div>
+      <div class="mb-3">
+        <label for="issue" class="form-label">Issue</label>
+        <input type="number" name="issue" class="form-control" id="issue">
+      </div>
 
-            <div class="mb-3">
-              <label for="genre" class="form-label">Genre</label>
-              <select class="form-control" name="genre" id="genre">
-                <option value="" disabled selected>--Choose Below--</option>
-                <option value="superhero">SuperHero</option>
-                <option value="manga">Manga</option>
-                <option value="slice-of-life">Slice-of-life</option>
-                <option value="humor">Humor</option>
-                <option value="sci-fi">Sci-fi</option>
-                <option value="fantasy">Fantasy</option>
-                <option value="horro">Horro</option>
-                <option value="action">Action</option>
-                <option value="nonfiction">Nonfiction</option>
-              </select>
-            </div>
+      <div class="mb-3">
+        <label for="genre" class="form-label">Genre</label>
+        <select class="form-control" name="genre" id="genre">
+          <option value="" disabled selected>--Choose Below--</option>
+          <option value="superhero">SuperHero</option>
+          <option value="manga">Manga</option>
+          <option value="slice-of-life">Slice-of-life</option>
+          <option value="humor">Humor</option>
+          <option value="sci-fi">Sci-fi</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="horro">Horro</option>
+          <option value="action">Action</option>
+          <option value="nonfiction">Nonfiction</option>
+        </select>
+      </div>
 
-            <div class="mb-3">
-              <input type="checkbox" name="color" class="form-check-input" id="color">
-              <label for="color" class="form-label">Color?</label>
-            </div>
+      <div class="mb-3">
+        <input type="checkbox" name="color" class="form-check-input" id="color">
+        <label for="color" class="form-label">Color?</label>
+      </div>
 
-            <div class="mb-3">
-              <label for="image" class="form-label">Image</label>
-              <input type="text" name="image" class="form-control" id="image" placeholder="e.g https://www.myimages.com">
-            </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="text" name="image" class="form-control" id="image" placeholder="e.g https://www.myimages.com">
+      </div>
 
-            <button type="submit" class="btn btn-outline-primary">Submit</button>
-          </form>
-    </div>
+      <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </form>
+  </div>
 
-<%- include("partials/footer") %>
+  <%- include("partials/footer") %>

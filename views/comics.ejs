@@ -1,20 +1,23 @@
 <%- include("partials/header") %>
 
     <div class="container">
-        
+
         <div class="row">
-            <% comics.forEach((comic) => { %>
+            <% comics.forEach((comic)=> { %>
                 <div class="card mt-3">
 
-                    <a href="/comics/<%= comic._id %>" >
-                        <img class="card-img card-img-top" src="<%= comic.image %>" alt="picture of <%=comic.title%> comic">
+                    <a href="/comics/<%= comic._id %>">
+                        <img class="card-img card-img-top" src="<%= comic.image %>"
+                            alt="picture of <%=comic.title%> comic">
                     </a>
-                    
-                    <h3 class="card-title mt-3">Title: <%= comic.title %></h3>
-                    <p class="card-text mb-3 mx-2">Description : <%= comic.description %></p>
+
+                    <h3 class="card-title mt-3">Title: <%= comic.title %>
+                    </h3>
+                    <p class="card-text mb-3 mx-2">Description : <%= comic.description %>
+                    </p>
                 </div>
-            <% }) %>
+                <% }) %>
         </div>
-        
+
     </div>
-<%- include("partials/footer") %>
+    <%- include("partials/footer") %>

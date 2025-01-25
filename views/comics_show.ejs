@@ -1,105 +1,127 @@
 <%- include("partials/header") %>
 
-    <div class="container">
-        <div class="row mt-4">
-            <div class="col-6 show_image-container">
-                <img src="<%= comic.image %>" alt="">
-            </div>
+  <div class="container">
+    <div class="row mt-4">
+      <div class="col-6 show_image-container">
+        <img src="<%= comic.image %>" alt="">
+      </div>
 
-            <div class="col-6 show_details-container">
-                <h1><%= comic.title %></h1>
-                <p><%= comic.description %></p>
+      <div class="col-6 show_details-container">
+        <h1>
+          <%= comic.title %>
+        </h1>
+        <p>
+          <%= comic.description %>
+        </p>
 
-                <table class="table">
-                    
-                    <tbody>
+        <table class="table">
 
-                      <tr>
-                        <th scope="row">Author</th>
-                        <td><%= comic.author %></td>
-                      </tr>
+          <tbody>
 
-                      <tr>
-                        <th scope="row">Publisher</th>
-                        <td><%= comic.publisher %></td>
-                      </tr>
+            <tr>
+              <th scope="row">Author</th>
+              <td>
+                <%= comic.author %>
+              </td>
+            </tr>
 
-                      <tr>
-                        <th scope="row">Date</th>
-                        <td><%= comic.date %></td>
-                      </tr>
+            <tr>
+              <th scope="row">Publisher</th>
+              <td>
+                <%= comic.publisher %>
+              </td>
+            </tr>
 
-                      <tr></tr>
-                        <th scope="row">Series</th>
-                        <td><%= comic.series %></td>
-                      </tr>
+            <tr>
+              <th scope="row">Date</th>
+              <td>
+                <%= comic.date %>
+              </td>
+            </tr>
 
-                      <tr></tr>
-                        <th scope="row">Issue</th>
-                        <td><%= comic.issue %></td>
-                      </tr>
+            <tr></tr>
+            <th scope="row">Series</th>
+            <td>
+              <%= comic.series %>
+            </td>
+            </tr>
 
-                      <tr></tr>
-                        <th scope="row">Genre</th>
-                        <td><%= comic.genre %></td>
-                      </tr>
+            <tr></tr>
+            <th scope="row">Issue</th>
+            <td>
+              <%= comic.issue %>
+            </td>
+            </tr>
 
-                      <tr></tr>
-                        <th scope="row">Color</th>
-                        <td><%= comic.color %></td>
-                      </tr>
-                    </tbody>
-                  </table>
+            <tr></tr>
+            <th scope="row">Genre</th>
+            <td>
+              <%= comic.genre %>
+            </td>
+            </tr>
 
-                  <a href="/comics/<%= comic._id %>/edit">
-                    <button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
-                  </a>
+            <tr></tr>
+            <th scope="row">Color</th>
+            <td>
+              <%= comic.color %>
+            </td>
+            </tr>
+          </tbody>
+        </table>
 
-                  <form action="/comics/<%= comic._id %>?_method=DELETE" method="post">
-                    <button type="submit" class="btn btn-outline-danger btn-lg btn-block">Delete</button>
-                  </form>
-
-            </div>
-        </div>
-        <div class="row show_comment-hearder mt-3">
-            COMMENTS
-        </div>
-
-        <a href="/comics/<%= comic._id %>/comments/new">
-          <button class="btn btn-success btn-lg mt-2 mb-4">Add Comment</button>
+        <a href="/comics/<%= comic._id %>/edit">
+          <button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
         </a>
 
-        <% if (comments.length === 0) { %>
-          
-          <div class="col3">
-            There are no comments yet. Be the first to share your thoughts!
-        </div>
-        <% } else { %>
-          <% comments.forEach((comment) => { %>
-            <div class="row show_comment-container py-2 border">
-              <div class="col-2 border-right my-auto">
-                <strong><%= comment.user %></strong>
-              </div>
+        <form action="/comics/<%= comic._id %>?_method=DELETE" method="post">
+          <button type="submit" class="btn btn-outline-danger btn-lg btn-block">Delete</button>
+        </form>
 
-              <div class="col-2 border-right my-auto d-flex flex-wrap justify-content-center">
-                <a href="/comics/<%= comic._id %>/comments/<%= comment._id %>/edit" class="btn btn-sm btn-success w-75 p-0 my-1">Edit</a>
-
-                <form 
-                  class="w-75 my-1" 
-                  action="/comics/<%= comic._id %>/comments/<%= comment._id %>?_method=DELETE" method="post">
-                  <button class="btn btn-sm btn-danger w-100 p-0">Delete</button>
-                </form>
-              </div>
-
-              <div class="col-8">
-                <p><%= comment.text %></p>
-              </div>
-            </div>
-          <% }) %>
-        <% } %>
-        <div class="py-5"></div>
-        
-        
+      </div>
+    </div>
+    <div class="row show_comment-hearder mt-3">
+      COMMENTS
     </div>
 
-<%- include("partials/footer") %>
+    <a href="/comics/<%= comic._id %>/comments/new">
+      <button class="btn btn-success btn-lg mt-2 mb-4">Add Comment</button>
+    </a>
+
+    <% if (comments.length===0) { %>
+
+      <div class="col3">
+        There are no comments yet. Be the first to share your thoughts!
+      </div>
+      <% } else { %>
+        <% comments.forEach((comment)=> { %>
+          <div class="row show_comment-container py-2 border">
+            <div class="col-2 border-right my-auto">
+              <strong>
+                <%= comment.user.username %>
+              </strong>
+            </div>
+
+            <div class="col-2 border-right my-auto d-flex flex-wrap justify-content-center">
+              <a href="/comics/<%= comic._id %>/comments/<%= comment._id %>/edit"
+                class="btn btn-sm btn-success w-75 p-0 my-1">Edit</a>
+
+              <form class="w-75 my-1" action="/comics/<%= comic._id %>/comments/<%= comment._id %>?_method=DELETE"
+                method="post">
+                <button class="btn btn-sm btn-danger w-100 p-0">Delete</button>
+              </form>
+            </div>
+
+            <div class="col-8">
+              <p>
+                <%= comment.text %>
+              </p>
+            </div>
+          </div>
+          <% }) %>
+            <% } %>
+              <div class="py-5"></div>
+
+
+  </div>
+
+  <%- include("partials/footer") %>

@@ -9,18 +9,28 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import methodOverride from "method-override";
 import morgan from "morgan";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import expressSession from "express-session";
+
 
 // Config Import
 import config from "./config.js";
 
+
 // Model Imports
-import Comic from "./models/comic.js"
-import Comment from "./models/comment.js"
+import Comic from "./models/comic.js";
+import Comment from "./models/comment.js";
+import User from "./models/user.js";
+
+
 
 // Routes Imports
 import comicRoutes from "./routes/comics.mjs";
 import commentRoutes from "./routes/comments.mjs";
 import mainRoutes from "./routes/main.mjs"
+import authRoutes from "./routes/auth.mjs";
+
 
 // ======================
 // DEVELOPMENT
@@ -32,9 +42,11 @@ const PORT = 3000;
 // Morgan
 app.use(morgan("tiny"));
 
+
 // Seed the DB
-import seed from "./utils/seed.mjs";
-seed();
+// import seed from "./utils/seed.mjs";
+// seed();
+
 
 // ======================
 // CONFIG
@@ -42,29 +54,56 @@ seed();
 
 // Connect to DB
 mongoose.connect(config.db.connection)
-.then(() => {
-    console.log("Successfully connected to the database!")
-})
-.catch((err) => {
-    console.log("Error while connectig: ", err);
-    
-})
+    .then(() => {
+        console.log("Successfully connected to the database!")
+    })
+    .catch((err) => {
+        console.log("Error while connectig: ", err);
+
+    })
 
 
 // Express Config
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
+
+// Express Session Config
+app.use(expressSession({
+    secret: "uiyweoijoalkdjsuoaisjajkuiakljdhufjilkskeuilksdjzukriEKNCsaeq",
+    resave: false,
+    saveUninitialized: false
+}))
+
+
 // Body Parser COnfig
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Method Override Config
 app.use(methodOverride("_method"));
 
+
+// Passport Config
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+
+
+// Current User Middleware Config
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+})
+
+
 // Route Config
-app.use("/",mainRoutes)
-app.use("/comics",comicRoutes)
-app.use("/comics/:id/comments",commentRoutes)
+app.use("/", mainRoutes);
+app.use("/", authRoutes);
+app.use("/comics", comicRoutes);
+app.use("/comics/:id/comments", commentRoutes);
 
 
 // ======================

@@ -2,6 +2,8 @@ import express from "express";
 const router = express.Router();
 import Comic from "../models/comic.js";
 import Comment from "../models/comment.js"
+import isLoggedIn from "../utils/isLoggedIn.mjs";
+import checkComicOwner from "../utils/checkComicOwner.mjs";
 
 
 // GET all comics
@@ -9,9 +11,9 @@ router.get("/", async (req, res) => {
 
     try {
         const foundComics = await Comic.find().exec()
-        res.render("comics", {comics:foundComics});
+        res.render("comics", { comics: foundComics });
 
-    } catch(err){
+    } catch (err) {
         console.log(err);
         res.send("you broke it... /index");
     }
@@ -19,7 +21,7 @@ router.get("/", async (req, res) => {
 
 
 // POST a new comic
-router.post("/", async (req, res) => {
+router.post("/", isLoggedIn, async (req, res) => {
     const genre = req.body.genre.toLowerCase();
     const newComic = {
         title: req.body.title,
@@ -31,17 +33,21 @@ router.post("/", async (req, res) => {
         issue: req.body.issue,
         genre: req.body.genre,
         color: !!req.body.color,
-        image: req.body.image
+        image: req.body.image,
+        owner: {
+            id: req.user._id,
+            username: req.user.username
+        }
     }
 
-    
+
     try {
         const comic = await Comic.create(newComic)
 
         console.log(comic)
         res.redirect("/comics/" + comic._id);
 
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         res.redirect("/comics");
     }
@@ -49,7 +55,7 @@ router.post("/", async (req, res) => {
 
 
 // Get form to create a new comic
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     res.render("comics_new");
 });
 
@@ -63,15 +69,15 @@ router.get("/search", async (req, res) => {
             $text: {
                 $search: req.query.term
             }
-        
+
         })
 
-        res.render("comics", {comics})
-        
+        res.render("comics", { comics })
+
     } catch (err) {
 
         console.log(err);
-        res.send("Broken search")     
+        res.send("Broken search")
     }
 })
 
@@ -86,7 +92,7 @@ router.get("/:id", async (req, res) => {
             return res.status(404).send("Comic not found.");
         }
 
-        const comments = await Comment.find({comicId: req.params.id}).exec();
+        const comments = await Comment.find({ comicId: req.params.id }).exec();
         const renderedComments = comments.length ? comments : [];
 
         res.render("comics_show", {
@@ -94,7 +100,7 @@ router.get("/:id", async (req, res) => {
             comments: renderedComments,
         });
 
-    }catch (err){
+    } catch (err) {
         console.error("Error fetching comic or comments: ", err);
         res.status(500).send(`Error: ${err.message}`);
     }
@@ -102,21 +108,21 @@ router.get("/:id", async (req, res) => {
 
 
 // GET form to edit a comic
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", checkComicOwner, async (req, res) => {
 
-    try{
+    try {
         const comic = await Comic.findById(req.params.id).exec();
-        res.render("comics_edit", {comic});
-    }catch(err){
+        res.render("comics_edit", { comic });
+    } catch (err) {
         console.log(err);
         res.send("Broken... /comics/id/edit");
     };
-    
+
 })
 
 
 // PUT to update a comic
-router.put("/:id", async (req, res) => {
+router.put("/:id", checkComicOwner, async (req, res) => {
     const genre = req.body.genre.toLowerCase();
     const updatedComic = {
         title: req.body.title,
@@ -132,10 +138,10 @@ router.put("/:id", async (req, res) => {
     }
 
     try {
-        const comic = await Comic.findByIdAndUpdate(req.params.id, updatedComic,{new:true}).exec();
+        const comic = await Comic.findByIdAndUpdate(req.params.id, updatedComic, { new: true }).exec();
         res.redirect(`/comics/${req.params.id}`)
 
-    } catch(err){
+    } catch (err) {
         console.log(err);
         res.send("Error:", err);
     }
@@ -143,14 +149,18 @@ router.put("/:id", async (req, res) => {
 
 
 // DELETE a comic
-router.delete("/:id", async (req, res) => {
-    try{
+router.delete("/:id", checkComicOwner, async (req, res) => {
+    try {
         const comic = await Comic.findByIdAndDelete(req.params.id).exec();
         res.redirect("/comics");
-    }catch(err){
+    } catch (err) {
         res.send("Error deleting: ", err)
     }
 })
+
+
+
+
 
 
 export default router;

@@ -11,7 +11,15 @@ const comicSchema = new mongoose.Schema({
     issue: Number,
     genre: String,
     color: Boolean,
-    image: String
+    image: String,
+    //Association - associating comics with users like we did, associating comics and comments
+    owner: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
+    }
 })
 
 

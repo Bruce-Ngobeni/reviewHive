@@ -1,23 +1,27 @@
 import express from "express";
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 import Comment from "../models/comment.js";
 import Comic from "../models/comic.js";
-import req from "express/lib/request.js";
+import isLoggedIn from "../utils/isLoggedIn.mjs";
+import checkCommentOwner from "../utils/checkCommentOwner.mjs"
 
 
 // New comment - show form
-router.get("/new", (req,res) => {
-    res.render("comments_new", {comicId: req.params.id})
+router.get("/new", isLoggedIn, (req, res) => {
+    res.render("comments_new", { comicId: req.params.id })
 })
 
 
 // Create comment - actually update DB
-router.post("/", async (req, res) => {
+router.post("/", isLoggedIn, async (req, res) => {
 
     try {
         //Create the comment
         const comment = await Comment.create({
-            user: req.body.user,
+            user: {
+                id: req.user._id,
+                username: req.user.username
+            },
             text: req.body.text,
             comicId: req.body.comicId
         })
@@ -25,7 +29,7 @@ router.post("/", async (req, res) => {
         console.log(comment);
         res.redirect(`/comics/${req.body.comicId}`)
 
-    }catch(err) {
+    } catch (err) {
         console.log(err);
         res.redirect(`/comics/${req.body.comicId}`)
     }
@@ -33,17 +37,17 @@ router.post("/", async (req, res) => {
 
 
 // Edit Comment
-router.get("/:commentId/edit", async (req, res) => {
+router.get("/:commentId/edit", checkCommentOwner, async (req, res) => {
 
-    try{
+    try {
         const comic = await Comic.findById(req.params.id).exec();
         const comment = await Comment.findById(req.params.commentId).exec();
 
         console.log("Comic:", comic);
         console.log("Comment:", comment);
 
-        res.render("comments_edit", {comic, comment});
-    }catch (err) {
+        res.render("comments_edit", { comic, comment });
+    } catch (err) {
         console.log(err);
         res.send("Broke Comment Edit GET");
     }
@@ -51,12 +55,12 @@ router.get("/:commentId/edit", async (req, res) => {
 
 
 // Update Comment - update in DB
-router.put("/:commentId", async (req, res) => {
+router.put("/:commentId", checkCommentOwner, async (req, res) => {
     try {
-        const comment = await Comment.findByIdAndUpdate(req.params.commentId, {text:req.body.text}, {new:true})
+        const comment = await Comment.findByIdAndUpdate(req.params.commentId, { text: req.body.text }, { new: true })
         console.log(comment);
         res.redirect(`/comics/${req.params.id}`);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         res.send("Brokeeeeeee comment PUT");
     }
@@ -64,16 +68,21 @@ router.put("/:commentId", async (req, res) => {
 
 
 // Delete comment
-router.delete("/:commentId", async (req, res) => {
+router.delete("/:commentId", checkCommentOwner, async (req, res) => {
     try {
         const comment = await Comment.findByIdAndDelete(req.params.commentId);
         console.log(comment);
         res.redirect(`/comics/${req.params.id}`);
-        
+
     } catch (err) {
         console.log(err);
         res.send("Broken comment DELETE")
     }
 })
+
+
+
+
+
 
 export default router;

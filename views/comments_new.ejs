@@ -1,24 +1,21 @@
 <%- include("partials/header") %>
 
-<div class="container">
-    <h1>Add New Comment</h1>
+    <div class="container">
+        <h1>Add New Comment</h1>
 
-    <form action="/comics/<%= comicId %>/comments" method="post">
-        <div class="form-group">
-            <label for="user">Username</label>
-            <input type="text" name="user" id="user" class="form-control" placeholder="Username" required autofocus>
-        </div>
+        <form action="/comics/<%= comicId %>/comments" method="post">
 
-        <div class="form-group">
-            <label for="text">Comment Text</label>
-            <textarea class="form-control" name="text" id="text" rows="8" cols="80" placeholder="Comment text here..." required></textarea>
-        </div>
+            <div class="form-group">
+                <label for="text">Comment Text</label>
+                <textarea class="form-control" name="text" id="text" rows="8" cols="80"
+                    placeholder="Comment text here..." required></textarea>
+            </div>
 
-        <!-- Hidden input -->
-        <input type="hidden" name="comicId" value="<%= comicId %>" >
+            <!-- Hidden input -->
+            <input type="hidden" name="comicId" value="<%= comicId %>">
 
-        <button type="submit" class="btn btn-primary">Submit Comment</button>
-    </form>
-</div>
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </div>
 
-<%- include("partials/footer") %>
+    <%- include("partials/footer") %>
