@@ -12,6 +12,7 @@ import morgan from "morgan";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import expressSession from "express-session";
+import flash from "connect-flash";
 
 
 // Config Import
@@ -117,6 +118,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 
+// Connect Flash
+app.use(flash());
+
+
 // Passport Config
 app.use(passport.initialize());
 app.use(passport.session());
@@ -125,9 +130,11 @@ passport.deserializeUser(User.deserializeUser());
 passport.use(new LocalStrategy(User.authenticate()));
 
 
-// Current User Middleware Config
+// State Config
 app.use((req, res, next) => {
     res.locals.user = req.user;
+    res.locals.errorMessage = req.flash("error");
+    res.locals.successMessage = req.flash("success");
     next();
 })
 
