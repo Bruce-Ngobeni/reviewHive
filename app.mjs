@@ -17,6 +17,20 @@ import expressSession from "express-session";
 // Config Import
 import config from "./config.js";
 
+// let config;
+
+// try {
+
+//     config = import("./config.js");
+
+// } catch (err) {
+
+//     console.log("Could not import config");
+//     console.log(err)
+    
+// }
+
+
 
 // Model Imports
 import Comic from "./models/comic.js";
@@ -53,7 +67,10 @@ app.use(morgan("tiny"));
 // ======================
 
 // Connect to DB
-mongoose.connect(config.db.connection)
+
+try {
+
+    mongoose.connect(config.db.connection)
     .then(() => {
         console.log("Successfully connected to the database!")
     })
@@ -61,6 +78,14 @@ mongoose.connect(config.db.connection)
         console.log("Error while connectig: ", err);
 
     })
+    
+} catch (err) {
+
+    console.log("could not connect using config");
+    mongoose.connect(process.env.DB_CONNECTION_STRING);
+    
+}
+
 
 
 // Express Config
@@ -70,7 +95,7 @@ app.set("view engine", "ejs");
 
 // Express Session Config
 app.use(expressSession({
-    secret: "uiyweoijoalkdjsuoaisjajkuiakljdhufjilkskeuilksdjzukriEKNCsaeq",
+    secret:process.env.ES_SECRET || config.expressSession.secret,
     resave: false,
     saveUninitialized: false
 }))
@@ -109,7 +134,7 @@ app.use("/comics/:id/comments", commentRoutes);
 // ======================
 // LISTEN
 // ======================
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log("Server is up and running on port: ", PORT);
 })
 
