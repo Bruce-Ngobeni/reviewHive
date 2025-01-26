@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 
 const comicSchema = new mongoose.Schema({
@@ -31,4 +31,4 @@ comicSchema.index({
 const Comic = mongoose.model("comic", comicSchema);
 
 
-module.exports = Comic;
+export default Comic;

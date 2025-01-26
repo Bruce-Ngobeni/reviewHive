@@ -15,13 +15,11 @@ import expressSession from "express-session";
 
 
 // Config Import
-import config from "./config.js";
-
-// let config;
 
 // try {
 
-//     config = import("./config.js");
+//     const config = require('./config.js');
+
 
 // } catch (err) {
 
@@ -29,6 +27,16 @@ import config from "./config.js";
 //     console.log(err)
     
 // }
+
+let config;
+
+try {
+    const module = await import('./config.js');
+    config = module.default; // Access default export
+} catch (err) {
+    console.error("Could not import config:", err.message);
+}
+
 
 
 
