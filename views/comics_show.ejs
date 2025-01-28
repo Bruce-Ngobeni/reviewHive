@@ -103,7 +103,7 @@
           <button id="upvote_btn" class="btn btn-outline-success btn-lg mt-3">+</button>
 
           <% } %>
-          
+
             <span id="score" class="mx-2 flex align-items-center ">10</span>
 
             <% if (user) { %>
@@ -157,6 +157,11 @@
 
 
   </div>
+
+  <script>
+    var comicId = "<%- comic._id %>"
+  </script>
+
   <script src="/js/comics_show.js"></script>
 
 

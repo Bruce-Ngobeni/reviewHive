@@ -99,11 +99,13 @@ router.get("/genre/:genre", async (req, res) => {
 
 
 // Vote
-router.post("/vote", isLoggedIn, (req, res) => {
-    console.log(req.body);
-    res.json({
-        message: "Voted!"
-    })
+router.post("/vote", isLoggedIn, async  (req, res) => {
+    console.log("Request body: ", req.body);
+
+    const comic = await Comic.findById(req.body.comicId);
+    console.log(comic);
+
+    res.json(comic);
 })
 
 
