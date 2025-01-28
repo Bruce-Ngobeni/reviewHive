@@ -89,9 +89,9 @@ router.get("/search", async (req, res) => {
 router.get("/genre/:genre", async (req, res) => {
     const validGenres = ["superhero", "manga", "humor", "slice-of-life", "sci-fi", "fantasy", "horror", "action", "non-fiction"]
 
-    if(validGenres.includes(req.params.genre.toLocaleLowerCase())) {
-        const comics = await Comic.find({genre: req.params.genre}).exec();
-        res.render("comics", {comics});
+    if (validGenres.includes(req.params.genre.toLocaleLowerCase())) {
+        const comics = await Comic.find({ genre: req.params.genre }).exec();
+        res.render("comics", { comics });
     } else {
         res.send("Please enter a valid genre!")
     }
@@ -99,80 +99,82 @@ router.get("/genre/:genre", async (req, res) => {
 
 
 // Vote
-router.post("/vote", isLoggedIn, async  (req, res) => {
+router.post("/vote", isLoggedIn, async (req, res) => {
     console.log("Request body: ", req.body);
 
     const comic = await Comic.findById(req.body.comicId);
     const alreadyUpvoted = comic.upvotes.indexOf(req.user.username);
     const alreadyDownvoted = comic.downvotes.indexOf(req.user.username);
-    
+
     let response = {};
     //voting logic
-    if (alreadyUpvoted === -1 && alreadyDownvoted === -1){
+    if (alreadyUpvoted === -1 && alreadyDownvoted === -1) {
 
-        if (req.body.voteType === "up"){
+        if (req.body.voteType === "up") {
 
             comic.upvotes.push(req.user.username);
             comic.save();
-            response.message = "Upvoted tallied!"
+            response.message = { message: "Upvoted tallied!, code: 1" };
 
-        } else if (req.body.voteType === "down"){
+        } else if (req.body.voteType === "down") {
 
             comic.downvotes.push(req.user.username);
             comic.save();
-            response.message = "Downvoted tallied!"
+            response.message = { message: "Downvoted tallied!", code: -1 }
 
-        } else{
-            response.message = "Error 1!"
+        } else {
+            response.message = { message: "Error 1!", code: "err" }
         }
 
     } else if (alreadyUpvoted >= 0) {
 
-        if(req.body.voteType === "up") {
+        if (req.body.voteType === "up") {
 
             comic.upvotes.splice(alreadyUpvoted, 1);
             comic.save();
-            response.message = "Upvote removed!";
+            response.message = { message: "Upvote removed!", code: 0 };
 
         } else if (req.body.voteType === "down") {
 
             comic.upvotes.splice(alreadyUpvoted, 1);
             comic.downvotes.push(req.user.username);
             comic.save();
-            response.message = "Changed to downvote";
+            response.message = { message: "Changed to downvote", code: -1 };
 
         } else {
 
-            response.message = "Error 2";
+            response.message = { message: "Error 2", code: "err" };
 
         }
 
     } else if (alreadyDownvoted >= 0) {
 
-        if(req.body.voteType === "up") {
+        if (req.body.voteType === "up") {
 
             comic.downvotes.splice(alreadyDownvoted, 1);
             comic.upvotes.push(req.user.username);
             comic.save();
-            response.message = "Changed to upvote";
+            response.message = { message: "Changed to upvote", code: 1 };
 
         } else if (req.body.voteType === "down") {
 
             comic.downvotes.splice(alreadyDownvoted, 1);
             comic.save();
-            response.message = "Removed downvote";
+            response.message = { message: "Removed downvote", code: 0 };
 
         } else {
-            response.message = "Error 3";
+            response.message = { message: "Error 3", code: "err" };
         }
 
     } else {
 
-        response.message = "Error 4";
+        response.message = { message: "Error 4", code: "err" };
 
     }
+    //Update score immediately prior to sending
+    response.score = comic.upvotes.length - comic.downvotes.length;
 
-    res.json(comic);
+    res.json(response);
 })
 
 
