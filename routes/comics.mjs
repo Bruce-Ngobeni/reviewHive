@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 const router = express.Router();
 import Comic from "../models/comic.js";
 import Comment from "../models/comment.js"
@@ -103,7 +103,74 @@ router.post("/vote", isLoggedIn, async  (req, res) => {
     console.log("Request body: ", req.body);
 
     const comic = await Comic.findById(req.body.comicId);
-    console.log(comic);
+    const alreadyUpvoted = comic.upvotes.indexOf(req.user.username);
+    const alreadyDownvoted = comic.downvotes.indexOf(req.user.username);
+    
+    let response = {};
+    //voting logic
+    if (alreadyUpvoted === -1 && alreadyDownvoted === -1){
+
+        if (req.body.voteType === "up"){
+
+            comic.upvotes.push(req.user.username);
+            comic.save();
+            response.message = "Upvoted tallied!"
+
+        } else if (req.body.voteType === "down"){
+
+            comic.downvotes.push(req.user.username);
+            comic.save();
+            response.message = "Downvoted tallied!"
+
+        } else{
+            response.message = "Error 1!"
+        }
+
+    } else if (alreadyUpvoted >= 0) {
+
+        if(req.body.voteType === "up") {
+
+            comic.upvotes.splice(alreadyUpvoted, 1);
+            comic.save();
+            response.message = "Upvote removed!";
+
+        } else if (req.body.voteType === "down") {
+
+            comic.upvotes.splice(alreadyUpvoted, 1);
+            comic.downvotes.push(req.user.username);
+            comic.save();
+            response.message = "Changed to downvote";
+
+        } else {
+
+            response.message = "Error 2";
+
+        }
+
+    } else if (alreadyDownvoted >= 0) {
+
+        if(req.body.voteType === "up") {
+
+            comic.downvotes.splice(alreadyDownvoted, 1);
+            comic.upvotes.push(req.user.username);
+            comic.save();
+            response.message = "Changed to upvote";
+
+        } else if (req.body.voteType === "down") {
+
+            comic.downvotes.splice(alreadyDownvoted, 1);
+            comic.save();
+            response.message = "Removed downvote";
+
+        } else {
+            response.message = "Error 3";
+        }
+
+    } else {
+
+        response.message = "Error 4";
+
+    }
 
     res.json(comic);
 })
