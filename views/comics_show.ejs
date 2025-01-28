@@ -69,29 +69,41 @@
           </tbody>
         </table>
 
-        <% if (user && user.username === comic.owner.username) { %>
+        <% if (user && user.username===comic.owner.username) { %>
 
           <a href="/comics/<%= comic._id %>/edit">
             <button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
           </a>
-  
+
           <form action="/comics/<%= comic._id %>?_method=DELETE" method="post">
             <button type="submit" class="btn btn-outline-danger btn-lg btn-block">Delete</button>
           </form>
 
-        <%}%>
+          <%}%>
 
-        
+
 
       </div>
     </div>
-    <div class="row show_comment-hearder mt-3">
+
+    <!-- <div class="row show_comment-hearder mt-3">
       COMMENTS
+    </div> -->
+    <div class="row">
+
+      <a href="/comics/<%= comic._id %>/comments/new">
+        <button class="btn btn-success btn-lg mt-2 mb-4">Add Comment</button>
+      </a>
+
+      <div>
+        <button id="upvote-btn" class="btn btn-outline-success btn-lg mt-3">+</button>
+        <span id="score" class="mx-2 flex align-items-center ">10</span>
+        <button id="downvote-btn" class="btn btn-outline-danger btn-lg mt-3">-</button>
+      </div>
+
     </div>
 
-    <a href="/comics/<%= comic._id %>/comments/new">
-      <button class="btn btn-success btn-lg mt-2 mb-4">Add Comment</button>
-    </a>
+
 
     <% if (comments.length===0) { %>
 
@@ -109,7 +121,7 @@
 
             <div class="col-2 border-right my-auto d-flex flex-wrap justify-content-center">
 
-              <% if (user && user.username === comment.user.username) {%>
+              <% if (user && user.username===comment.user.username) {%>
                 <a href="/comics/<%= comic._id %>/comments/<%= comment._id %>/edit"
                   class="btn btn-sm btn-success w-75 p-0 my-1">Edit</a>
 
@@ -118,7 +130,7 @@
                   <button class="btn btn-sm btn-danger w-100 p-0">Delete</button>
                 </form>
 
-              <% } %>
+                <% } %>
             </div>
 
             <div class="col-8">

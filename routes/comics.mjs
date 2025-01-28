@@ -98,6 +98,14 @@ router.get("/genre/:genre", async (req, res) => {
 })
 
 
+// Vote
+router.post("/vote", isLoggedIn, (req, res) => {
+    res.json({
+        message: "Voted!"
+    })
+})
+
+
 // GET specific comic by ID
 router.get("/:id", async (req, res) => {
 
