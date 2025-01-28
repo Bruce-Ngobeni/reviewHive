@@ -10,8 +10,9 @@ import checkComicOwner from "../utils/checkComicOwner.mjs";
 router.get("/", async (req, res) => {
 
     try {
+        const successMessage = req.flash("success");
         const foundComics = await Comic.find().exec()
-        res.render("comics", { comics: foundComics });
+        res.render("comics", { comics: foundComics, successMessage });
 
     } catch (err) {
         console.log(err);
@@ -37,18 +38,20 @@ router.post("/", isLoggedIn, async (req, res) => {
         owner: {
             id: req.user._id,
             username: req.user.username
-        }
+        },
+        upvotest: [req.user.username],
+        downvotes: []
     }
 
 
     try {
         const comic = await Comic.create(newComic)
 
-        console.log(comic)
+        req.flash("success", "Comic created")
         res.redirect("/comics/" + comic._id);
 
     } catch (err) {
-        console.log(err);
+        req.flash("error", "Error creating comic")
         res.redirect("/comics");
     }
 })
@@ -152,11 +155,13 @@ router.put("/:id", checkComicOwner, async (req, res) => {
 
     try {
         const comic = await Comic.findByIdAndUpdate(req.params.id, updatedComic, { new: true }).exec();
+        req.flash("success", "Comic successfully updated!")
         res.redirect(`/comics/${req.params.id}`)
 
     } catch (err) {
         console.log(err);
-        res.send("Error:", err);
+        req.flash("error", "Error updating comic")
+        res.redirect("/comics");
     }
 })
 
@@ -165,9 +170,11 @@ router.put("/:id", checkComicOwner, async (req, res) => {
 router.delete("/:id", checkComicOwner, async (req, res) => {
     try {
         const comic = await Comic.findByIdAndDelete(req.params.id).exec();
+        req.flash("success", "Comic successfully deleted!")
         res.redirect("/comics");
     } catch (err) {
-        res.send("Error deleting: ", err)
+        req.flash("error", "Error deleting comic");
+        res.redirect("back");
     }
 })
 

@@ -1,8 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import User from '../models/user.js';
 import passport from 'passport';
-
+import User from '../models/user.js';
 
 
 
@@ -14,25 +13,22 @@ router.get('/signup', (req, res) => {
 
 // Sign Up - Create
 router.post("/signup", async (req, res) => {
-
     try {
-
+        req.flash("success", "signed up 1!")
         const newUser = await User.register(new User({
             username: req.body.username,
-            email: req.body.email
+            email: req.body.email,
         }), req.body.password);
-
-        console.log(newUser);
-
-        passport.authenticate('local')(req, res, () => {
-            res.redirect('/comics')
+        req.flash("success", "signed up 2!")
+        passport.authenticate("local")(req, res, () => {
+            res.redirect('/comics');
+            req.flash("success", "Signed up 3!")
         });
-
+        
     } catch (err) {
-        res.send(err)
-
+        console.log(err);
+        res.send(err);
     }
-
 })
 
 
@@ -44,8 +40,12 @@ router.get('/login', (req, res) => {
 
 //Login
 router.post("/login", passport.authenticate('local', {
+    
     successRedirect: '/comics',
-    failureRedirect: '/login'
+    failureRedirect: '/login',
+    failureFlash: true,
+    successFlash: "Logged in successfully!",
+
 }));
 
 
@@ -53,7 +53,12 @@ router.post("/login", passport.authenticate('local', {
 router.get('/logout', (req, res, next) => {
     req.logout((err) => {
         if (err) { return next(err); }
-        res.redirect('/comics');
+        
+        req.flash("success", "Logged you out!")
+        res.redirect('/');
+        
+
+        console.log(req.flash())
     });
 });
 
@@ -61,7 +66,4 @@ router.get('/logout', (req, res, next) => {
 
 
 export default router;
-
-
-
 

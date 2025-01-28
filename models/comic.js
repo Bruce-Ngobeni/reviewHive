@@ -19,7 +19,9 @@ const comicSchema = new mongoose.Schema({
             ref: "User"
         },
         username: String
-    }
+    },
+    upvotes: [String],
+    downvotes: [String]
 })
 
 
